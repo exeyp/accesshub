@@ -1,0 +1,19 @@
+[Unit]
+Description=gunicorn daemon for Flask app
+After=network.target
+
+[Service]
+User=www
+Group=www
+WorkingDirectory=/home/www/www/accesshub/app
+ExecStart=/home/www/www/accesshub/app/.venv/bin/gunicorn --workers 4 --bind 127.0.0.1:8000 run:app
+
+Restart=always
+RestartSec=3
+
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=gunicorn
+
+[Install]
+WantedBy=multi-user.target
