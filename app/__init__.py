@@ -22,9 +22,4 @@ def create_app(config_class):
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
 
-    # Инициализация БД
-    with app.app_context():
-        from .models import init_db
-        init_db()
-
     return app
