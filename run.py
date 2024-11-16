@@ -17,4 +17,4 @@ def initialize_database():
     with app.app_context():
         from app.models import init_db
         init_db()
-        click.echo("Database initialized.")
+        click.echo("Database initialized. Tables created and initial data added.")

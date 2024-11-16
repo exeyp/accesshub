@@ -6,7 +6,7 @@ export FLASK_CONFIG=config.DevelopmentConfig
 export FLASK_CONFIG=config.ProductionConfig
 
 gunicorn -w 4 -b 127.0.0.1:8000 run:app
-
+gunicorn -w 1 -b 0.0.0.0:8000 run:app
 
 Flask CLI автоматически ищет приложение по имени в переменной окружения FLASK_APP. Если переменная FLASK_ENV=development, сервер запускается в режиме отладки.
 
