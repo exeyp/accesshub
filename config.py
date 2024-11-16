@@ -6,6 +6,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class DevelopmentConfig(Config):
+    # Включится только отладочный режим без автоперезагрузки.
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///dev.db'
 
