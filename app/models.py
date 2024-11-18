@@ -1,14 +1,15 @@
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 from datetime import datetime
 
-# Модель роли
+# Role model
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(32), unique=True, nullable=False)
 
-# Модель пользователя
-class User(db.Model):
+# User model
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
@@ -16,7 +17,7 @@ class User(db.Model):
     full_name = db.Column(db.String(64), nullable=True)
     phone = db.Column(db.String(11), nullable=True)
     deleted = db.Column(db.Boolean, default=False)
-    reg_date = db.Column(db.DateTime, nullable=False)
+    reg_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     role = db.relationship('Role', backref=db.backref('users', lazy=True))
 
@@ -26,21 +27,28 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-# Заполнение базы данных ролями и пользователем admin
+    @staticmethod
+    def active_users():
+        return User.query.filter_by(deleted=False)
+
+# Database initialization
 def init_db():
     db.create_all()
 
-    # Проверка наличия ролей
-    if not Role.query.filter_by(title='admin').first():
+    # Add roles
+    admin_role = Role.query.filter_by(title='admin').first()
+    user_role = Role.query.filter_by(title='user').first()
+    if not admin_role:
         admin_role = Role(title='admin')
-        user_role = Role(title='user')
         db.session.add(admin_role)
+    if not user_role:
+        user_role = Role(title='user')
         db.session.add(user_role)
-        db.session.commit()
+    db.session.commit()
 
-    # Заполнение таблицы пользователей
+    # Add admin user
     if not User.query.filter_by(username='admin').first():
-        admin = User(username='admin', role_id=1, reg_date=datetime.utcnow())
+        admin = User(username='admin', role=admin_role)
         admin.set_password('admin')
         db.session.add(admin)
         db.session.commit()

@@ -5,8 +5,8 @@ pip install -r requirements.txt
 export FLASK_CONFIG=config.DevelopmentConfig
 export FLASK_CONFIG=config.ProductionConfig
 
-gunicorn -w 4 -b 127.0.0.1:8000 run:app
-gunicorn -w 1 -b 0.0.0.0:8000 run:app
+gunicorn -w 4 -b 0.0.0.0:8000 run:app
+gunicorn -w 1 -b localhost:8000 run:app
 
 Flask CLI автоматически ищет приложение по имени в переменной окружения FLASK_APP. Если переменная FLASK_ENV=development, сервер запускается в режиме отладки.
 
@@ -14,6 +14,7 @@ export FLASK_APP=run.py
 export FLASK_ENV=development #Автоперезагрузка активна. DEBUG автоматически включён.
 
 flask run --host=0.0.0.0 --port=8000
+flask run --host=localhost --port=8000
 
 #Процесс миграций
 
