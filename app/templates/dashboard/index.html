@@ -2,10 +2,19 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Панель управления</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Добро пожаловать в панель управления</h1>
-    <p>Это главная страница панели управления.</p>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Панель управления</h1>
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-primary logout-button">Выйти</a>
+        </div>
+        <div class="dashboard-content">
+            <p>Добро пожаловать в панель управления! Здесь вы можете управлять своими данными.</p>
+        </div>
+    </div>
 </body>
 </html>
