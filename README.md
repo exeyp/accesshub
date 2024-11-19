@@ -14,7 +14,7 @@ export FLASK_APP=run.py
 export FLASK_ENV=development #Автоперезагрузка активна. DEBUG автоматически включён.
 
 flask run --host=0.0.0.0 --port=8000
-flask run --host=localhost --port=8000
+flask run --host=localhost --port=8000 --debug
 
 #Процесс миграций
 

@@ -29,7 +29,7 @@ def create_app(config_class):
     # Register blueprints
     from app.auth import auth_bp
     from app.dashboard import dashboard_bp
-    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(auth_bp)
     app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
 
     return app
